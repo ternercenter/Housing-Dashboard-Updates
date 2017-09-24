@@ -1,0 +1,364 @@
+/* SVG css - modified from http://bl.ocks.org/mbostock/3885304 */
+
+.bar {
+	fill: #DDD;
+	shape-rendering: crispEdges;
+}
+
+.axis {
+	font: 10px sans-serif;
+	color: #DDD;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #888;
+	shape-rendering: crispEdges;
+}
+
+.x.axis path{
+	display: none;
+}
+
+.y.axis path{
+	display: none;
+}
+
+svg text{
+	font: 12px Georgia;
+	fill: #999;
+}
+
+.overBar{
+	stroke: #FFF !important;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+  margin-right: 5%;
+}
+
+.clear{
+  clear: both;
+}
+
+.input1{
+  text-align: right;
+  border-style: solid;
+  border: none;
+}
+
+.input1:focus{
+  outline: none;
+}
+
+.unit{
+  color: #CCC;
+}
+
+.question_image{
+  margin-top: -3px;
+  cursor: pointer;
+}
+
+.tickDefault line{
+  stroke: #555 !important;
+}
+
+.tickDefault text{
+  fill: #555 !important;
+}
+
+
+/* Slider modified from http://bl.ocks.org/mbostock/6452972 */
+
+.slider .handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: .5;
+  stroke-width: 1.25px;
+  cursor: pointer;
+}
+
+.slider_bg {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .3;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  shape-rendering: crispEdges;
+}
+
+.slider_bg2 {
+  fill: none;
+  stroke: #EAEAEA;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  shape-rendering: crispEdges;
+}
+
+/* Toggle CSS, modified from https://css-tricks.com/examples/ButtonMaker/# 
+   and http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html */
+
+.button {
+  border: 1px solid #CCC;
+  padding: 10px 20px 10px 20px;
+  color: #AAA;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: center;
+  -webkit-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  -moz-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  float: left;
+}
+
+.bleft{
+  -webkit-border-radius: 5px 0px 0px 5px;
+  -moz-border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 0px 0px 5px; 
+  border-right: none !important;
+}
+
+.bmiddle{
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.bright{
+  -webkit-border-radius: 0px 5px 5px 0px;
+  -moz-border-radius: 0px 5px 5px 0px;
+  border-radius: 0px 5px 5px 0px;
+  border-left: none !important;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.choiceList{
+  list-style: none;
+  padding: 8px 25px 0px 0px;
+  float: right;
+}
+
+.activeb{
+  border: 1px solid #888 !important;
+  color: #000 !important;
+  background-color: #DDD;
+}
+
+#salesDiv, #sWord{
+  display: none;
+}
+
+#menuList{
+  list-style: none; 
+  padding: 0;
+  margin-top: 20px;
+}
+
+.buttonMenu{
+  padding: 5px 0px 5px 0px;
+  font-size: 18px;
+  font-weight: 300;
+  vertical-align: middle;
+  cursor: pointer; 
+}
+
+.buttonMenu:hover{
+  color: #777;
+}
+
+/*
+#affHousingDiv, #affHousingLevelDiv{
+  display: none;
+}
+*/
+
+#specificplan{
+  display: none;
+}
+
+#negativedeclaration{
+  display: none;
+}
+
+#cutime{
+  display: none;
+}
+
+#cucost{
+  display: none;
+}
+
+.resultBig{
+  margin-top: 10px;
+}
+
+#returnDiv{
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 300;
+  padding: 10px 0px 10px 0px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#returnWord{
+  font-size: 30px;
+  font-family: Helvetica;
+  font-weight: bold;
+}
+
+#returnWordSmall{
+  font-size: 20px;
+  font-family: Helvetica;
+  font-weight: bold;
+}
+
+.dNote{
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+  .dNote{
+    font-size: 14px;
+  }
+}
+
+#costList{
+  margin-top: 20px;
+}
+
+.costList2{
+  text-align: right;
+}
+
+.cost{
+  list-style: none;
+  padding: 0;
+  font-weight: 500;
+  color: #999;
+}
+
+#minorCosts{
+  margin-bottom: 12px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #CCC;
+}
+
+#totalCosts{
+  margin-bottom: 12px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #CCC;
+}
+
+.cSpace{
+  margin-top: 5px;
+}
+
+#returnDataSmall{
+  font-weight: bold;
+  font-size: 16px;
+  font-family: Helvetica;
+}
+
+#annually{
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  #annually{
+    font-size: 17px;
+  }
+}
+
+#resultsBoxDivSmall{
+  padding: 10px 5%;
+}
+
+#logo{
+  width: auto;
+  max-height: 100%;
+}
+
+#logoLead{
+  text-align: center;
+  vertical-align: center;
+  margin-top: 40px;
+}
+
+@media (min-width: 992px) {
+  #logoLead{
+    margin-top: 80px;
+    float: right;
+    width: 33%;
+    margin-right: 65px;
+    margin-top: 80px;
+  }
+}
+
+.box{
+  border: 1px #DDDDDD dashed;
+  padding: 0px 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.buttonStandOut{
+  font-size: 22px;
+}
+
+/* Popup */
+
+#explainIt{
+  display: none;
+  padding: 10px 15px 10px 15px;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  width: 35%;
+  position: absolute;
+  background-color: #FFFFFF;
+  font-size: 14px;
+}
+
+/* Titles */
+
+.special{
+  margin-bottom: 0px;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .special {
+    font-size: 33px;
+  }
+}
+
+.special-sub{
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .special-sub {
+    font-size: 21px;
+  }
+}

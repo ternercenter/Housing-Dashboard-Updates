@@ -1,0 +1,361 @@
+/* SVG css - modified from http://bl.ocks.org/mbostock/3885304 */
+
+.axis {
+  font: 10px sans-serif;
+  color: #DDD;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #888;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path{
+  display: none;
+}
+
+svg text{
+	font: 12px Georgia;
+	fill: #999;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
+.clear{
+  clear: both;
+}
+
+.question_image{
+  margin-top: -3px;
+  cursor: pointer;
+}
+
+.sLabel text{
+  fill: #333 !important;
+}
+
+/* Slider modified from http://bl.ocks.org/mbostock/6452972 */
+
+.slider .handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: .5;
+  stroke-width: 1.25px;
+  cursor: pointer;
+}
+
+.slider_bg {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .3;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  shape-rendering: crispEdges;
+}
+
+.slider_bg2 {
+  fill: none;
+  stroke: #EAEAEA;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  shape-rendering: crispEdges;
+}
+
+/* Toggle CSS, modified from https://css-tricks.com/examples/ButtonMaker/# 
+   and http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html */
+
+.button {
+  border: 1px solid #CCC;
+  padding: 6px 12px 6px 12px;
+  color: #AAA;
+  font-size: 13px;
+  vertical-align: middle;
+  text-align: center;
+  -webkit-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  -moz-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  float: left;
+}
+
+.button2 {
+  border: 1px solid #CCC;
+  padding: 3px 4px 3px 4px;
+  color: #AAA;
+  font-size: 11px;
+  vertical-align: middle;
+  text-align: center;
+  -webkit-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  -moz-box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
+  float: left;
+  width: 34px;
+}
+
+.bleft{
+  -webkit-border-radius: 5px 0px 0px 5px;
+  -moz-border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 0px 0px 5px; 
+  border-right: none !important;
+}
+
+.bmiddle{
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.bright{
+  -webkit-border-radius: 0px 5px 5px 0px;
+  -moz-border-radius: 0px 5px 5px 0px;
+  border-radius: 0px 5px 5px 0px;
+  border-left: none !important;
+}
+
+.button:hover, .button2:hover {
+  cursor: pointer;
+}
+
+.choiceList{
+  list-style: none;
+  padding: 5px 22px 0px 0px;
+  float: right;
+}
+
+.choiceList2{
+  list-style: none;
+  padding: 5px 22px 0px 0px;
+}
+
+.buttonHolder{
+  list-style: none;
+  padding: 0px;
+  margin: 15px 0 15px 0;
+}
+
+.activeb{
+  border: 1px solid #888 !important;
+  color: #000 !important;
+  background-color: #DDD;
+}
+
+/* Other CSS */
+
+#logo{
+  width: auto;
+  max-height: 100%;
+}
+
+#logoLead{
+  text-align: center;
+  vertical-align: center;
+  margin-top: 60px;
+  margin-left: 30px;
+}
+
+#mapDiv{
+  width: 100%;
+  min-width: 734px;
+}
+
+#col1{
+  width: 370px;
+  padding-left: 10px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  float: left;
+}
+
+/*
+#affHousingDiv, #affHousingLevelDiv{
+  display: none;
+}
+*/
+
+/* Map styles */
+
+#mapContainer{
+  float: right;
+  height: 100%;
+}
+
+#resultsDiv{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 10px 20px 15px 20px;
+  background-color: white;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+}
+
+#cityName{
+  margin-bottom: 0;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.tableHeader{
+  text-align: center;
+}
+
+.col2, .col3{
+  text-align: center;
+}
+
+.col2{
+  width:110px;
+}
+
+.col3{
+  width:140px;
+}
+
+.col4{
+  width:100px;
+}
+
+.row1{
+  color: #CCCCCC;
+  text-transform: uppercase;
+}
+
+tr td{
+  border-bottom: 1pt solid #CCCCCC;
+  padding-bottom: 2px;
+  padding-top: 3px;
+}
+
+.row4 td{
+  border-bottom: none !important;
+}
+
+.row3 td{
+  border-bottom: 1pt solid #777777;
+}
+
+#devPotential{
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+#devPotential2{
+  margin-bottom: 5px;
+}
+
+#devTotal{
+  font-size: 20px;
+}
+
+.box{
+  border: 1px #DDDDDD dashed;
+  padding: 0px 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+/* Mouseover */
+
+#mouseOver{
+  width: 220px;
+  font-size: 12px;
+  padding: 7px 10px 1px 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  background-color: white;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  display: none;
+}
+
+#resultsOdds{
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+#returnDiv{
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: 300;
+  padding: 5px 0px 5px 0px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#returnData{
+  font-size: 16px;
+  font-family: Helvetica;
+  font-weight: bold;
+}
+
+#costList{
+  margin-top: 20px;
+}
+
+.cost{
+  list-style: none;
+  padding: 0;
+  font-weight: 500;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+#totalCosts{
+  margin-bottom: 6px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #CCC;
+}
+
+#explainIt{
+  display: none;
+  padding: 10px 15px 10px 15px;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+  width: 35%;
+  position: absolute;
+  background-color: #FFFFFF;
+  font-size: 14px;
+}
+
+/* Titles */
+
+.special{
+  margin-bottom: 0px;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .special {
+    font-size: 33px;
+  }
+}
+
+.special-sub{
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .special-sub {
+    font-size: 21px;
+  }
+}

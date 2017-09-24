@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="How Much Housing Will Be Built?">
+	<title>How Much Housing Will Be Built?</title>
+
+	<meta name='twitter:site' content='@Mgrahamimac' />
+	<meta property='og:site_name' content='Graham MacDonald' />
+	<meta name='twitter:url' content='http://grahamimac.com/citywide/index.html' />
+	<meta property='og:url' content='http://grahamimac.com/citywide/index.html' />
+	<meta name='twitter:title' content='How Much Housing Will Be Built?' />
+	<meta property='og:title' content='How Much Housing Will Be Built?' />
+
+	<!--
+	<meta name='twitter:description' content='Satellite Image of DC, courtesy of USGS EarthExplorer' />
+	<meta property='og:description' content='Satellite Image of DC, courtesy of USGS EarthExplorer' />
+
+	<meta name='twitter:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta name='st:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta property='og:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta name='twitter:card' content='summary_large_image' />
+	-->
+
+	<meta property='og:type' content='website' />
+
+	<link type="text/css" rel="stylesheet" href="css/vendor/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/index.css" />
+	<script type="text/javascript" src="js/vendor/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/vendor/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/model.js"></script>
+	<!-- <script type="text/javascript" src="js/data/San_Francisco_Ready.js"></script> -->
+	<link rel="stylesheet" href="css/vendor/leaflet.css" />
+	<script type="text/javascript" src="js/vendor/leaflet.js"></script>
+	<!-- <script type="text/javascript" src="js/vendor/tile.stamen.js"></script> -->
+</head>
+<body>
+	<!-- <h1 id="passwordDiv" class="title2">
+		Enter password: <input id='password' type='password'  />
+		<button id="passwordButton">Submit</button>
+	</h1> -->
+	<div id="mouseOver">
+		<div id="resultsOdds">Odds of construction</div>
+		<div id="returnDiv"><span id="returnData">...</span> chance</div>
+		<div id="totalCosts">
+			<ul class="left cost">
+				<li class="costList">Total Cost:</li>
+				<li class="costList">Completed Project Value:</li>
+				<li class="costList">Time to Build &amp; Sell:</li>
+				<li class="costList">Land Cost Paid / SF:</li>
+			</ul>
+			<ul class="right cost">
+				<li class="costList2" id="cTotal">0</li>
+				<li class="costList2" id="cValue">0</li>
+				<li class="costList2" id="cMonths">0</li>
+				<li class="costList2" id="cLandSF">0</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div id="totalUnits">
+			<ul class="left cost">
+				<li class="costList">Housing Units:</li>
+				<li class="costList">Affordable Units:</li>
+				<li class="costList">Fees Collected:</li>
+			</ul>
+			<ul class="right cost">
+				<li class="costList2" id="cUnits">0</li>
+				<li class="costList2" id="cAffUnits">0</li>
+				<li class="costList2" id="cFees">0</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-7">
+				<h1 class="special">Housing Development Dashboard</h1>
+				<h1 class="special-sub">Policy Gauge</h1>
+				<h1 class="lead">How Much Housing Will Be Built?</h1>
+				<p><span style="font-weight:bold;">We believe that providing a transparent, open resource for policymakers can improve local decision making.</span> The Policy Gauge tool is designed to help local politicians, city staff, and the general public understand how local policies may impact total potential housing production and city revenues in their cities. Our calculator focuses on 4 example cities &mdash; San Francisco, Oakland, Pleasanton, and Menlo Park &mdash; using the most important factors supported by the literature and local development experts.</p>
+				<p>The tool provides an estimated range of potential housing and revenue produced under scenarios that allow changes to many default assumptions. The methodology and default assumptions were vetted through conversations with area development experts, data collection, and analysis from January to May of 2016. In reality, many of these factors move together, so users should be careful to interpret results significantly different from existing market conditions. The tool is currently in <span style="font-weight:bold;">&beta;eta</span> testing.</p>
+			</div>
+			<div class="col-md-3">
+				<div class="lead" id="logoLead"><a href="http://ternercenter.berkeley.edu"><img src="css/img/Terner_Logo_RGB.png" id="logo" title="The Terner Center for Housing Innovation at UC Berkeley" alt="Terner Center Logo" /></a></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-7">
+				<div id="mapLegend" style="margin:0px 0px -5px 0px;"></div>			
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-7" id="choiceCenter">
+				<ul class="choiceList2 custom-break" id="cityList">
+					<li class="button bleft">San Francisco</li>
+					<li class="button bmiddle bactive">Oakland</li>
+					<li class="button bmiddle">Pleasanton</li>		
+					<li class="button bright">Menlo Park</li>				
+					<li class="clear"></li>
+				</ul>				
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+	<div id="mapDiv" class="big-break">
+		<div id="col1">
+			<h1 class="lead3">Government Factors</h1>
+			<!--
+			<div class="choice" id="aff_fee">
+				<h1 class="title1 left">Exaction</h1>
+				<ul class="choiceList">
+					<li class="button bleft activeb">Fee</li>
+					<li class="button bmiddle">Inclusionary</li>
+					<li class="button bright">Either</li>
+					<li class="clear"></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			-->
+			<div class="box">
+				<div class="graph" data-min="0" data-max="80000" data-step="10000" data-format="wk$" input-format="wt,$" id="feeDiv" data-default="0" exp-text="The fee collected by the city per new unit of housing built. Cities are required by law to allow developers to choose to pay a fee or build affordable housing on site. If the Fees are changed but Affordable Housing remains at 0%, developers will choose not to pay the fee and will instead choose to build 0% affordable housing. Both controls must be moved to change developer incentives.">
+					<h1 class="title1">Fees (per Unit)</h1>
+				</div>
+				<h1 class="title1" style="width: 100%; text-align:center; border-top: 1px #DDDDDD dashed; border-bottom: 1px #DDDDDD dashed; color: #CCCCCC; ">OR</h1>
+				<div class="graph" data-min="0" data-max="40" data-step="5" data-format="w%" input-format="w%" id="affHousingDiv" data-default="0" exp-text="The share of new units built that must be affordable to households of certain incomes. Cities are required by law to allow developers to choose to pay a fee or build affordable housing on site. If the Affordable Housing requirement is changed but Fees remains at $0, developers will choose not to build the affordable housing and will instead choose to pay a $0 fee. Both controls must be moved to change developer incentives. Affordable housing is assumed to be the same quality and size as market rate housing. Note that San Francisco requires 12%, not 10%, affordable housing, rounded here for simplicity.">
+					<h1 class="title1">Affordable Housing (% Requried)</h1>
+				</div>
+				<div class="graph" data-min="40" data-max="120" data-step="10" data-format="w%" input-format="w%" id="affHousingLevelDiv" data-default="80" exp-text="The maximum income of residents eligible for the affordable housing units in the project, as a percent of Area Median Income (AMI). AMI is specified by the Department of Housing and Urban Development in 2016 as annual income for a family of 4 in the Oakland-Fremont CA Metro Area area, for Oakland and Pleasanton, and the San Francisco Metro Area, for San Francisco and Menlo Park. For example, in Oakland, 50% of AMI is $48,750 per year, and given affordability requires 30% of income toward rent, annual rent paid by affordable tenants would be $14,625, or $1,219 per month. Note that San Francisco requires 55% of AMI, not 60%, for affordable rental housing, rounded here for simplicity.">
+					<h1 class="title1">Affordability Level (% of Median Income)</h1>
+				</div>
+			</div>
+			<div class="graph" data-min="-40" data-max="40" data-step="10" data-format="w%" input-format="w%" data-default="0" exp-text="The percent change in the maximum number of units possible under the zoning code, based on the most restrictive zoning requirement for the property, for every parcel in the city. Changing density may increase the number of units at projects that are financially feasible or marginally feasible, depending on a number of different factors.">
+				<h1 class="title1">Change in Density</h1>
+			</div>
+			<div class="graph" data-min="-40" data-max="40" data-step="10" data-format="w%" input-format="w%" data-default="0" exp-text="The change in the number of spaces per housing unit in the property, as required by the local Planning Department. The model assumes no developer will build less than 0.5 spaces per unit, as developers note that many investors believe at least some tenants will demand parking. Parking is assumed to be wood-framed garage at 1 to 2 stories, podium at 3 to 6 stories, underground 1 level at 7 to 11 stories, and underground 2 levels at 12 stories or more. All parking 3 stories or above assumes the use of stackers &mdash; mechanical lifts that allow 2 cars to park in a single space. Parking is assumed to cost $100 per square foot for 3 to 6 story structures, and increasing for underground structures, while stackers are assumed to cost $15,000 per space.">
+				<h1 class="title1">Change in Parking (per Unit)</h1>
+			</div>
+			<div class="graph" data-min="-40" data-max="40" data-step="10" data-format="w%" input-format="w%" data-default="0" exp-text="The change in percentage points in the percent of the first floor that is required to be set aside for retail shops only. So, 10 percent here is different than the sliders above. Here a 10 'percent' increase would move a 0% ground floor retail requirement to 10%. For a complete discussion of how retail returns are calculated, see the methodology below.">
+				<h1 class="title1">Change in Ground Floor Retail (% 1st Floor)</h1>
+			</div>
+			<div class="graph" data-min="2" data-max="18" data-step="2" data-format="w" input-format="w" data-default="6" exp-text="The amount of time necessary for the city to assign a planner, check the developers' plans, do any required design review by planners, process and issue building permits, and perform any other ministerial, non-discretionary actions. For clarity, a discretionary action might include a planning commission or city council approval, for example.">
+				<h1 class="title1">Basic Permitting Time (Months)</h1>
+			</div>		
+			<div class="choice" id="conditionaluse" exp-text="'Yes' removes conditional use requirements citywide. A CU is a Conditional Use permit, while a PUD is a Planned Unit Development. Both are zoning designations created by cities that require a developer to get approvals from the local Planning Commission and possibly City Council in order to go through with development.">
+				<h1 class="title1 left">Remove Conditional Use</h1>
+				<ul class="choiceList">
+					<li class="button bleft">Yes</li>
+					<li class="button bright activeb">No</li>
+					<li class="clear"></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div class="graph" data-min="0" data-max="16" data-step="2" data-format="w" input-format="w" data-default="6" id="cutime" exp-text="The additional time, above and beyond the Basic Permitting Time, necessary to get Conditional Use or Planned Unit Development approval from the local Planning Commission and/or City Council. This time does not include time spent on environmental negative declarations, Environmental Impact Reports, or environmental-related litigation.">
+				<h1 class="title1">CU or PUD Additional Time (Months)</h1>
+			</div>		
+			<div class="graph" data-min="0" data-max="80000" data-step="10000" data-format="wk$" input-format="wt,$" data-default="10000" id="cucost" exp-text="The cost to developers of the additional requirements imposed by the local Planning Commission and/or City Council necessary to get the project approved. This could include the cost to hire an additional security guard, construct a new on-ramp, pay additional fees, and other charges. This cost does not inlcude money spent on environmental negative declarations, Environmental Impact Reports, or environmental-related litigation.">
+				<h1 class="title1">CU or PUD Additional Cost (per Unit)</h1>
+			</div>		
+			<div class="choice" id="specificplan" exp-text="'Yes' places all properties citywide in a specific plan area. A specific plan is a development plan created by the city to encompass an area, usually comprising a few neighborhoods representing a subset of the city, with new zoning rules and requirements. The city completes an Environmental Impact Report (EIR) for the specific plan area, with necessary mitigations, and as a result, developers do not have to complete the environmental review process within the specific area, as long as they comply with the mitigations set forth in the plan. Based on interviews with developers, it is assumed that the EIR process takes 12 to 24 months, increasing based on the size of the project, and costs $300,000 to upwards of $1 million, depending on the size of the project.">
+				<h1 class="title1 left">Use Specific Plans Citywide</h1>
+				<ul class="choiceList">
+					<li class="button bleft">Yes</li>
+					<li class="button bright activeb">No</li>
+					<li class="clear"></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h1 class="lead3">Local Conditions</h1>
+			<div class="graph" data-min="2" data-max="10" data-step="1" data-format="w%" input-format="w%" data-default="3" exp-text="The expected increase in sales prices or rental rates between project inception &mdash; drawing plans, seeking initial planning department input, and other preliminary activities &mash; and project completion and sale. All rents for the model are currently determined by average rents/sqft and sales prices/sqft within 1/4 of a mile of each parcel for 2015, and grossed up for each city using city-level change data from 2015-16 from Zillow.com. Given the process can take 3 years or more, even small changes in annual rent increase assumptions can make a large difference to project feasibility. Overoptimistic developers may draw and submit plans but never follow through with them if expected rent increases do not occur, while realistic developers may lose out on land acquisitions to their overeager competitors.">
+				<h1 class="title1">Annual Rent or Sales Price Increase</h1>
+			</div>	
+			<div class="graph" data-min="200" data-max="280" data-step="10" data-format="w,$" input-format="wu,$" data-default="250" exp-text="The current market rate cost per square foot of constructed floor space to build wood-framed construction up to 5 stories, as charged by area general contractors. High rise construction costs are automatically calculated by the model as a percent of low-rise costs based on the Height selected in the section above. 6 story buildings cost 3% more, 7 to 8 stories 25% more, 9 stories 30% more, and each additional story above 9 stories 1 percentage point more. Low rise construction costs tend to rise with rents in a real estate boom because the supply for skilled labor often cannot keep up with demand.">
+				<h1 class="title1">Low Rise Construction Costs (per sq. ft.)</h1>
+			</div>
+			<div class="graph" data-min="2" data-max="10" data-step="1" data-format="w%" input-format="w%" data-default="2" exp-text="The expected increase in Low Rise Construction Costs between project inception &mdash; drawing plans, seeking initial planning department input, and other preliminary activities &mash; and the beginning of construction. Given the process can take 6 months to years, depending on Conditional Use, Planned Unit Development, or environmental review, in some cases this is a large factor and in others a small one. Low rise construction costs tend to rise with rents in a real estate boom because the supply for skilled labor often cannot keep up with demand.">
+				<h1 class="title1">Annual Construction Cost Increase</h1>
+			</div>
+			<div class="graph" data-min="60" data-max="120" data-step="10" data-format="w%" input-format="w%" data-default="70" exp-text="The market rental rates of retail shops, per square foot per year, of rentable space, as a share of residential rents in the property's area. This factor is only important if the project requires Ground Floor Retail, as specified in the section above.">
+				<h1 class="title1">Retail Rents (% of Residential Rents)</h1>
+			</div>
+
+			<h1 class="lead3">Required Return</h1>
+			<div class="graph" data-min="2" data-max="10" data-step="1" data-format="w%" input-format="w%" data-default="6" exp-text="The current interest rate for a construction loan charged by the bank. It is assumed that the bank loans 65% of project costs, and the remaining 35% comes from investor equity. The higher the interest rate, the larger the interest payments the developer has to pay during construction. Affordable housing mortgage rates are assumed to be one percentage point below the Interest Rate.">
+				<h1 class="title1">Bank Loan Annual Interest Rate</h1>
+			</div>
+			<div class="graph" data-min="8" data-max="16" data-step="1" data-format="w%" input-format="w%" data-default="11" exp-text="The rate of return on total project cost needed for an investor &mdash; such as a pension fund or Real Estate Investment Trust &mdash; to invest in this real estate project over other investments it can consider, such as other real estate projects and investments in other industries. It is assumed that the bank loans 65% of project costs, and the remaining 35% comes from investor equity, so actual investor return will be higher due to leveraging. The higher the target rate of return, the larger the value of the project must be upon completion. In projects that can take 3 years or more, small changes in global investment risk and capital flows can make a large difference on project viability.">
+				<h1 class="title1">Total Project Target Return</h1>
+			</div>
+		</div>
+		<div id="mapContainer">
+
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="container">
+		<div class = "row">
+			<div class="col-md-8 col-md-offset-2">
+				<h1 class="lead2">Sources</h1>
+				<p class="par">Key assumptions for this model are drawn from numerous discussions with developers, contractors, and architects, as well as recent real estate feasibility studies done in San Francisco, Oakland, and El Cerrito by AECOM (<a href="http://files.mtc.ca.gov/pdf/TAP/Oakland_Development_Feasibility_Report.pdf" target="7">here</a> and <a href="http://www.el-cerrito.org/DocumentCenter/View/3699" target="8">here</a>), Seifel Consulting (<a href="http://www.sf-planning.org/ftp/files/plans-and-programs/emerging_issues/tsp/TSF_EconomicFeasibilityStudy_Spring2015.pdf" target="4">here</a> and <a href="http://sf-moh.org/modules/showdocument.aspx?documentid=6976" target="6">here</a>), and Strategic Economics (<a href="http://www.ci.berkeley.ca.us/uploadedFiles/Planning_and_Development/Level_3_-_DAP/FeasibilityReport_Final.pdf" target="5">here</a>). Some basic assumptions for affordable condo purchase price calculations are drawn from the San Francisco Mayor's Office of Housing Inclusionary Housing Program (<a href="http://sf-moh.org/modules/showdocument.aspx?documentid=8830" target="10">here</a>). Structure and basic assumptions are also drawn from various real estate classes at UC Berkeley &mdash; taught by <a href="https://www.law.berkeley.edu/php-programs/faculty/facultyProfile.php?facID=11321" target="1">Bill Falik</a>, <a href="http://facultybio.haas.berkeley.edu/faculty-list/williams-dennis" target="2">Dennis Williams</a>, and <a href="http://ced.berkeley.edu/ced/faculty-staff/carol-galante" target="3">Carol Galante</a>.</p>
+				<p class="par big-break">Parcel level data on developable parcels comes from local open data portals, planning department staff, county assessor data, Padmapper rental listings, and the California Department of Conservation. In San Francisco, data for Treasure Island and Yerba Buena Island were excluded because data was unavailable for this analysis.</p>
+
+				<h1 class="lead2">Methodology</h1>
+				<p class="par">The model calculates developer return using the Internal Rate of Return (IRR) metric.  Model assumptions and calculations are based on a pro-forma analysis. For more detailed methodological information, contact <a href="mailto:ternerhousing@berkeley.edu">ternerhousing@berkeley.edu</a>.</p>
+				<p class="par">The basic assumptions are as follows:</p>
+				<p class="par">The project is assumed to be an apartment project, and is sold at stabilization after all construction is complete at a rate of 20 units per month.</p>
+				<p class="par">The bank loan is 65% of total hard and soft construction costs and bank loan fees are 75 basis points. Costs to build out the retail space are $15 per square foot (psf) less expensive than low-rise construction costs. Tenant improvements and leasing costs for the space are $100 psf.  Basic podium parking costs $120 psf.</p>
+				<p class="par">Sales expenses are 3.5% of revenue for rental properties and 5.5% of revenue for condos. There is a premium for condo finishes of 5% of residential hard costs. All units are 1000 square feet (sf) and receive the same rent per square foot. There is a 10% contingency added to hard construction costs.</p>
+				<p class="par">Each parking space requires 350 square feet, and stackers are used for an extra $15,000 per space for all parking.  Cars are stacked in 2 levels. Construction takes 18 months for smaller projects 3 stories and higher, 6 months for 1 story projects, 12 months for 2 story projects, and 21 months for projects 7 stories and higher, adding one additional month time for every 2 additional stories for larger projects beginning at 13 stories.  The amount of lot square footage used as net rentable space is 73% for the most inefficient projects &mdash; highrises &mdash; and near 100% for one to two story buildings. Landscaping costs $10 psf.</p>
+				<p class="par">A number of these variables change with building height. Per square foot costs rise with building height according to general cost estimates from the San Francisco Transportation Sustainability Fee report and interviews with developers. Lot square footage used as net rentable space is 100% for 1 story projects and 95% for two story projects, dropping to 76% for 3 story buildings. The figure improves steadily from 3 to 7 stories, and then declines again after 9 stories in 1% increments. Parking costs per square feet rise after 6 stories and again after 11 stories to reflect the costs of underground parking.</p>
+				<p class="par">Residential vacancy is 5%, while retail vacancy is 10%. Soft costs, not including interest carry or local impact fees, are 18% of hard costs. The capitalization rate (cap rate) for retail is 150 basis points above the residential cap rate, as indicated in a recent CBRE <a href="http://www.cbre.us/o/fortlauderdale/AssetLibrary/CapRate_H22014_Master%5B1%5D.pdf" target="20">report</a>, while retail rents are assumed to be about 75% of local residential rents, which mimics the relationship among cap rates between retail and residential.</p>
+				<p class="par">10% of hard and soft construction costs are spent during predevelopment. 10% of the cost of the land is paid annually in option consideration. Projects with a negative declaration are assumed to take 4 months longer, while projects with a full EIR take 12 to 24 months longer, depending on project size. EIR production and litigation costs are assumed to start at $300,000 and rise based on project size by about $1,500 per unit. Projects do not have to complete an EIR or negative declaration if they are not in a conditional use area or have 6 units or fewer. Stabilization and sale occurs after 90% of the building is occupied for 90 days for rental units.</p>
+				<p class="par">Affordable units are the same size and quality as market rate units. Rents are set at a certain default percent of AMI based on the city's affordable housing requirements. AMI is based on 2016 Department of Housing and Urban Development income limits for a family of 4 for the local city.</p>
+				<p class="par">Projects in liquefaction zones cost 4% more and projects in landslide zones cost 1.5% more, based on conversations with a structural engineer.</p>
+				<p class="par">Condo fees are $500/month, and property taxes are 1.2%. Mortgage rates are 100 basis points below the "Bank Loan Interest Rate" for construction loans. Affordable condo purchases pay 10% down. Renters and owners pay 30% of their income toward rent or mortgage payments.</p>
+				<p class="par">Operating costs are 30% of residential rents and 10% of retail rents.  Investors require a 10% annual IRR.</p>
+				<p class="par">The land seller in this model may be motivated or unmotivated. Land sellers are assumed to have different prices at which they are willing to sell (for those mathematically inclined, it is modeled here using a poisson distribution with lamda value 4 at increments of 0.05 from 0 to 10). The distribution, shown below, most closely matches the distribution of land seller willingness based on conversations with area developers. This assumes that about 79% of motivated land sellers agree to sell at the market price, allowing for a few holdouts.</p>
+				<p class="par"><img style="max-width: 100%; height: auto;" src="css/img/Percent_Market_Value.png" /></p>
+				<p class="par">The price at which land sellers are willing to sell is determined based on the market price of the land, which is determined based on the Residual Land Value analysis performed by our model. Given the existing use of the property (e.g., Office, Retail, Residential, etc.) and size of the property, we calculate the current market value. If this value is greater than the RLV, the distribution is shifted by the difference, making more valuable current properties less likely to sell.</p>
+				<p class="par">The distribution is similarly shifted the longer an owner has owned the property, or if the owner is a public entity, indicating patient or slow-moving capital. The shift based on length of ownership begins after 20 years and escalates to 40 years in a linear function, which can affect the probability of sale by up to 35 percentage points. If the owner is a public entity the willingness to sell is assumed to be the same as a long term private owner.</p>
+				<p class="par">Rents, sales, and capitalization rates are based on current market values per square foot within a quarter mile of the property, collected from local Assessor records and rental listings in 2015. In areas where no rent or sales data was available, the city average is used. Rents and sales data from 2015 are adjusted to 2016 levels using the most recent <a href="http://www.zillow.com/research/data/" target="21">Zillow ZHVI and ZRI summary indices</a> YoY change variable.</p>
+				<p class="par">For each property, the model runs alternative scenarios for paying the fee, building the affordable housing on site but not using the state density bonus, and using the state density bonus. Using detailed data manually collected from the local zoning code, the model determines the maximum number of units and maximum height of the building. For each of these scenarios, the model runs a pro forma for a rental property and a condo property.</p> 
+				<p class="par">For each of the three alternative scenarios, the model is run for heights, from 2 stories up to the maximum number of stories allowed. For simplicity and runtime, the stories that are used are 2, 4, 6, 8, 10, 20, 30, and 40. If the maximum envelope is 7 stories, for example, the model will run the three alternative scenarios &mdash; paying the fee, building affordable housing on site without the density bonus, and using the density bonus &mdash; for rental and condo properties, at 2, 4, 6, and 7 stories, for a total of 24 different runs. This analysis is completed for every property in the city included in the model (see paragraph below).</p>
+				<p class="par">Properties included in the model have total development potential, measured by FAR and residential units, of 20% or less of the maximum allowed under local zoning law. All properties above this level are considered "built out" and do not factor in to the maximum potential units number.</p>
+				<p class="par">Local data on <a href="http://www.conservation.ca.gov/cgs/shzp/" target="22">liquefaction, landslide, and earthquake zones</a> was collected from CA state agencies, while data on specific plans, fees, affordable housing requirements, and density bonus incentives was collected manually from local jurisdictions. Note that specific plan fees are not included in this model because we considered the task too complex.</p>
+				<p class="par">This model does not include an ADU policy as a government lever because the factors that induce individual owners to build ADUs are too different from the factors facing larger building developers to include in the model.</p>
+				<!-- <p class="par">For more information on data and methodology, view our paper <a href="" target="30">here</a>.</p> -->
+				<p class="par big-break" style="line-height:1;"><span style="font-size:10px;">&copy; 2016 Terner Center for Housing Innovation at UC Berkeley. All Rights Reserved. No part of this website or computer code (javascript, HTML, CSS, etc.) may be reproduced, stored, modified, transmitted, or otherwise used without the prior written permission of the Terner Center for Housing Innovation at UC Berkeley.</span></p>
+			</div>
+		</div>
+	</div>
+	<div id="explainIt"></div>
+</body>
+</html>

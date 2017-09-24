@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Will Housing Be Built?">
+	<title>Will Housing Be Built?</title>
+
+	<meta name='twitter:site' content='@Mgrahamimac' />
+	<meta property='og:site_name' content='Graham MacDonald' />
+	<meta name='twitter:url' content='http://grahamimac.com/proforma/index.html' />
+	<meta property='og:url' content='http://grahamimac.com/proforma/index.html' />
+	<meta name='twitter:title' content='Will Housing Be Built?' />
+	<meta property='og:title' content='Will Housing Be Built?' />
+
+	<!--
+	<meta name='twitter:description' content='Satellite Image of DC, courtesy of USGS EarthExplorer' />
+	<meta property='og:description' content='Satellite Image of DC, courtesy of USGS EarthExplorer' />
+
+	<meta name='twitter:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta name='st:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta property='og:image' content='http://grahamimac.com/satellite/css/satimg.png' />
+	<meta name='twitter:card' content='summary_large_image' />
+	-->
+
+	<meta property='og:type' content='website' />
+
+	<link type="text/css" rel="stylesheet" href="css/vendor/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="css/index.css" />
+	<script type="text/javascript" src="js/vendor/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="js/vendor/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/model.js"></script>
+</head>
+<body>
+	<!-- <h1 id="passwordDiv" class="title2">
+		Enter password: <input id='password' type='password'  />
+		<button id="passwordButton">Submit</button>
+	</h1>-->
+	<div class="lead" id="logoLead"><a href="http://ternercenter.berkeley.edu"><img src="css/img/Terner_Logo_RGB.png" id="logo" title="The Terner Center for Housing Innovation at UC Berkeley" alt="Terner Center Logo" /></a></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7">
+				<h1 class="special">Housing Development Dashboard</h1>
+				<h1 class="special-sub">Development Calculator</h1>
+				<h1 class="lead">Top 6 Factors Influencing New Development</h1>
+				<p><span style="font-weight:bold;">We believe that providing a transparent, open resource for policymakers can improve local decision making.</span> The Housing Development Dashboard shows how local policies and development factors impact the odds that a housing development gets built. The Development Calculator focuses on the most important factors supported by the literature and local development experts. The methodology and default assumptions were vetted through conversations with area development experts, data collection, and analysis from January to May of 2016.</p>
+				<p>The calculator works best for properties of 50 units or more, projects in which the developer has not yet entered into an option agreement, and where the land seller is motivated to sell. In reality, many of these factors move together, so users should be careful to interpret results significantly different from existing market conditions. The tool is currently in <span style="font-weight:bold;">&beta;eta</span> testing.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5 resultsBoxRight" id="resultsBox">
+				<div id="resultsBoxDiv">
+					<h1 class="title2">Will the project be built?</h1>
+					<div id="returnDiv"><span id="returnWord">...</span></div>
+					<h1 class="title2 resultBig build">We have <span id="returnData">0</span> confidence that it will be built.</h1>
+					<!--<h1 class="title2 resultBig unsure">The housing may be built, depending on the risk.</h1>
+					<h1 class="title2 resultBig nogo">The housing will very likely not be built.</h1> -->
+					<div id="costList">
+						<div id="minorCosts">
+							<ul class="left cost">
+								<li class="costList">Land:</li>
+								<li class="costList">Aff. Housing Fees:</li>
+								<li class="costList">Construction (Hard Costs):</li>
+								<li class="costList">Other (Soft Costs):</li>
+							</ul>
+							<ul class="right cost">
+								<li class="costList2" id="cLand">0</li>
+								<li class="costList2" id="cFees">0</li>
+								<li class="costList2" id="cConstruction">0</li>
+								<li class="costList2" id="cOther">0</li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+						<div id="totalCosts">
+							<ul class="left cost">
+								<li class="costList">Total Cost:</li>
+								<li class="costList">Completed Project Value:</li>
+								<li class="costList">Time to Build &amp; Sell:</li>
+								<li class="costList">Land Cost Paid / SF:</li>
+								<li class="costList">Market Land Price / SF:</li>
+							</ul>
+							<ul class="right cost">
+								<li class="costList2" id="cTotal">0</li>
+								<li class="costList2" id="cValue">0</li>
+								<li class="costList2" id="cMonths">0</li>
+								<li class="costList2" id="cLandSF">0</li>
+								<li class="costList2" id="cLandPrice">0</li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+						<div id="totalUnits">
+							<ul class="left cost">
+								<li class="costList">Housing Units:</li>
+								<li class="costList">Affordable Units:</li>
+							</ul>
+							<ul class="right cost">
+								<li class="costList2" id="cUnits">0</li>
+								<li class="costList2" id="cAffUnits">0</li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<!-- <p class="dNote">
+						<b>Developers and investors typically need a 15-20% annual return</b> to earn enough money to justify risks such as voter referenda, environmental litigation and remediation, and market fluctuations.
+					</p> -->
+				</div>
+			</div>
+			<div class="col-md-7" id="col1">
+				<div id="mapLegend" style="margin: 30px 0px -15px 0px;"></div>
+				<ul id="menuList" style="">
+
+				</ul>
+				<h1 class="lead2" id="marketfactors">Market Factors</h1>
+				<p class="par">Many key inputs to the development process are determined by the market and are fully or partially out of a local government's control</p>
+				<h1 class="lead2" id="1targetreturn">1. Target Return</h1>
+				<div class="graph" data-min="8" data-max="16" data-format="w%" input-format="w%" data-default="11" exp-text="The rate of return on total project cost needed for an investor &mdash; such as a pension fund or Real Estate Investment Trust &mdash; to invest in this real estate project over other investments it can consider, such as other real estate projects and investments in other industries. It is assumed that the bank loans 65% of project costs, and the remaining 35% comes from investor equity, so actual investor return will be higher due to leveraging. The higher the target rate of return, the larger the value of the project must be upon completion. In projects that can take 3 years or more, small changes in global investment risk and capital flows can make a large difference on project viability.">
+					<h1 class="title1 left">Total Project Target Return</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="3"/> <span class="unit">/year</span></h1>
+					<div class="clear"></div>
+				</div>
+				<p class="par">Most developers do not have the $10s to $100s of millions necessary to fund a typical real estate project. Outside investors &mdash; such as a pension fund or Real Estate Investment Trust &mdash; provide most of the money for real estate projects and need a certain return, given the risks involved. Real estate projects are considered risky, and if the annual rate of return drops to levels close to that of less risky investments &mdash; such as Coca-Cola stock or "risk-free" US Treasury bonds &mdash; investors will choose to put their money in these less risky alternatives instead of funding this project.</p>
+				<p class="par big-break">Investors judge risk in a city based on certainty &mdash; if a number of past projects have been denied or faced significant delays, investors may require a higher return. Because return is calculated annually, and compounds over time, target return can make a large difference.</p>
+				<h1 class="lead2" id="2landownerwillingnesstosell">2. Landowner Willingness to Sell</h1>
+				<div class="graph" data-min="0" data-max="400" data-format="w$" input-format="wu$" data-default="100" exp-text="The current market rate cost of land in the project's area. This is used to calculate the probability that the landowner sells to the developer. If the value the developer can pay, based on all the other factors in the model, is much lower than market value, it is unlikely the land owner will sell, for example. For a complete discussion of the distribution we used, based on developer interviews, see the methodology below.">
+					<h1 class="title1 left">Market Land Costs</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit">/square foot of land</span></h1>
+					<div class="clear"></div>
+				</div>
+				<p class="par">To calculate whether a project will be profitable, developers often calculate all their costs the amount they would need to earn to pay back their investors and earn a decent profit, excluding the price of land. What is left over &mdash; profits of the project minus costs &mdash; is what the developer can afford to pay for land.</p>
+				<p class="par">Property owners value their property differently, using the value of the existing use &mdash; the revenues generated by people paying to park on an empty lot, for example &mdash; to calculate how much it might currently be worth. To induce property owners to sell, real estate developers must often pay more than the property owner's perceived value. Property owners vary in the value of their current use and financial situation, so in any given area this value will vary. In a strong market, rising rents will increase the value of the existing use, meaning a developer must pay more for the land.</p>
+				<p class="par big-break">That's why in this model, as the market land cost increases, but the amount the developer is able to pay &mdash; Land Cost Paid / SF of land, to your right &mdash; remains the same, the property is less likely to be built. As the difference between what the developer is willing to pay and what the landowner sees in the market becomes bigger, the landowner becomes less likely to sell.</p>
+				<h1 class="lead2" id="3localrentsandcosts">3. Local Rents and Costs</h1>
+				<div class="graph" data-min="200" data-max="1600" data-format="w,$" input-format="wu,$" id="salesDiv" data-default="690" exp-text="The market sales price of similar units, per square foot of livable space, in the project's area. For example, for a 1,000 square foot apartment renting at $3.70 per square foot per month, the monthly rental cost would be $3,700. Developer models are incredibly sensitive to changes in market sales, causing a project to look very profitable or untouchable depending on the scenario.">
+					<h1 class="title1 left">Local Sales</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="6"/> <span class="unit">/square foot of unit</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="2" data-max="6" data-format="e$" input-format="e$" id="rentalDiv" data-default="3.5" exp-text="The market rental rates of similar units, per square foot per month, of livable space, in the project's area. Developer models are incredibly sensitive to changes in market rental rates, causing a project to look very profitable or untouchable depending on the scenario.">
+					<h1 class="title1 left">Local Rents</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit">/square foot of unit/month</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="160" data-max="300" data-format="w,$" input-format="wu,$" data-default="250" exp-text="The current market rate cost per square foot of constructed floor space to build wood-framed construction up to 5 stories, as charged by area general contractors. High rise construction costs are automatically calculated by the model as a percent of low-rise costs based on the Height selected in the section below. 6 story buildings cost 3% more, 7 to 8 stories 25% more, 9 stories 30% more, and each additional story above 9 stories 1 percentage point more. Low rise construction costs tend to rise with rents in a real estate boom because the supply for skilled labor often cannot keep up with demand.">
+					<h1 class="title1 left">Low Rise Construction Costs</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="6"/> <span class="unit">/gross square foot of building</span></h1>
+					<div class="clear"></div>
+				</div>
+				<p class="par big-break">Local rents and sales prices, along with construction costs, make the largest difference in developer models. Small increases in rents can make a project very profitable, while small decreases can doom them, and vice versa for construction costs. And as market rents and sales prices rise, construction costs often rise as well due to skilled labor shortages, which means that rising rents do not always translate to increased feasibility. This is one of the reasons development is considered so risky and why investors, and developers, demand higher returns compared to other investment opportunities. Note this means that moving one of the levers here may also mean others may shift due to overall economic conditions, so users should be careful of the conclusions drawn from a large shift in any one of the indicators.</p>
+				<h1 class="lead2" id="localgovernmentfactors">Local Government Factors</h1>
+				<p class="par">A number of important local government decisions can affect the odds that a project gets built, especially when these changes are large or the project in question has only a moderate probability of construction.</p>
+				<h1 class="lead2" id="4feesoraffordablehousingrequirements">4. Fees or Affordable Housing Requirements</h1>
+				<div class="box">
+					<div class="graph" data-min="0" data-max="120000" data-format="wk$" input-format="wt,$" id="feeDiv" data-default="30000" exp-text="The fee collected by the city per new unit of housing built. Cities are required by law to allow developers to choose to pay a fee or build affordable housing on site. If the Fees are changed but Affordable Housing remains at 0%, developers will choose not to pay the fee and will instead choose to build 0% affordable housing. Both controls must be moved to change developer incentives.">
+						<h1 class="title1 left">Fees</h1>
+						<h1 class="title1 right"><input type="text" class="input1" size="7"/> <span class="unit">/unit</span></h1>
+						<div class="clear"></div>
+					</div>
+					<h1 class="title1" style="width: 100%; text-align:center; border-top: 1px #DDDDDD dashed; border-bottom: 1px #DDDDDD dashed; color: #000000; ">OR</h1>
+					<div class="graph" data-min="0" data-max="40" data-format="w%" input-format="w%" id="affHousingDiv" data-default="10" exp-text="The share of new units built on site that must be affordable to households of certain incomes. Cities are required by law to allow developers to choose to pay a fee or build affordable housing on site. If the Affordable Housing requirement is changed but Fees remains at $0, developers will choose not to build the affordable housing and will instead choose to pay a $0 fee. Both controls must be moved to change developer incentives. Affordable housing is assumed to be the same quality and size as market rate housing.">
+						<h1 class="title1 left">Affordable Housing</h1>
+						<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit"> of units</span></h1>
+						<div class="clear"></div>
+					</div>
+					<div class="graph" data-min="50" data-max="120" data-format="w%" input-format="w%" id="affHousingLevelDiv" data-default="120" exp-text="The maximum income of residents eligible for the affordable housing units in the project, as a percent of Area Median Income (AMI). AMI is specified by the Department of Housing and Urban Development in 2016 as annual income for a family of 4 in the Oakland-Fremont CA area. For example, 50% of AMI is $48,750 per year, and given affordability requires 30% of income toward rent, annual rent paid by affordable tenants would be $14,625, or $1,219 per month.">
+						<h1 class="title1 left">Affordability Level</h1>
+						<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit"> of median income</span></h1>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<p class="par">Developers may choose to build affordable housing on site &mdash; as part of the project &mdash; or pay a fee. Compared to local rents and investor risk adjusted return, fees and on-site affordable housing requirements are not as important to a development model. However, large changes to the requirements, and the affordability levels required, can have a significant impact on development in the short term. For example, requiring 20% affordable housing for lower income people at 50% of AMI or a $40,000 fee makes a much larger difference than requiring 10% of housing be affordable to higher-income at 120% of AMI or a $10,000 fee.</p>
+				<p class="par big-break">How a government implements the fees also matters. Developers negotiate an exclusive purchasing option with a landowner when first putting together plans for a site, which can happen a year or more before the development begins construction. If a policy does not grandfather projects during this time period, the developer will have to re-negotiate a lower price for the land in order to earn a profit. If the landowner refuses to sell at a lower price, the project may not be built. In addition, investors and developers may percieve the policy as unfriendly to development and require higher returns in the city in the future.</p>
+				<h1 class="lead2" id="5localplanningdecisions">5. Local Planning Decisions</h1>
+				<div class="graph" data-min="0" data-max="40" data-format="w" input-format="w" data-default="5" exp-text="The height of the building above grade &mdash; the average level of the ground of the property &mdash; in stories, as chosen by the developer, inclusive of parking, ground floor retail, and other non-residentiathl space, if that space is above grade. Note that this is different from the maximum height, which was avoided in order to show the financial tradeoffs at each level of building height instead of only the most profitable height.">
+					<h1 class="title1 left">Height</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="2"/> <span class="unit">stories</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="2" data-format="d" input-format="e" data-default="1" exp-text="The number of spaces per housing unit in the property, as chosen by the developer. For example, 0.5 per unit parking required in a 100 unit property means 50 total parking spaces required. Note that this is different from minimum parking required, which was avoided in order to show the financial tradeoffs at each level of parking. Parking is assumed to be wood-framed garage at 1 to 2 stories, podium at 3 to 6 stories, underground 1 level at 7 to 11 stories, and underground 2 levels at 12 stories or more. All parking 3 stories or above assumes the use of stackers &mdash; mechanical lifts that allow 2 cars to park in a single space. Parking is assumed to cost $100 per square foot for 3 to 6 story structures, and increasing for underground structures, while stackers are assumed to cost $15,000 per space.">
+					<h1 class="title1 left">Parking</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit">spaces/unit</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="30" data-format="w" input-format="w" data-default="6" exp-text="The amount of time necessary for the city to assign a planner, check the developers' plans, do any required design review by planners, process and issue building permits, and perform any other ministerial, non-discretionary actions. For clarity, a discretionary action might include a planning commission or city council approval, for example.">
+					<h1 class="title1 left">Basic Permitting Time</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="2"/> <span class="unit">months</span></h1>
+					<div class="clear"></div>
+				</div>
+				<p class="par">Though not in the same realm as local rents and investor risk-adjusted return, local Planning Department decisions on building height, parking, and permitting time can make a significant difference to a project's feasilibity. In this case, height refers to the height chosen by the developer, not a maximum height limit set by the Planning Department, in order to show the financial tradeoffs at each level of building height instead of just the most profitable height. Buildings over 6 stories often cost significantly more to construct because building codes require steel frame instead of the much cheaper wood, and life safety systems become more complicated. Parking can be very expensive &mdash; even with new technology, a single space can cost $25,000 to $75,000. Requiring less parking not only saves money but can allow for more space to build housing units, and for developers to earn money.</p>
+				<p class="par big-break">In the permit process, time is money. Though only a small chunk of the investor's money is spent up front, the investor still requires an annual return on that sum. The longer the permit process takes, the more profitable the project must be when it's finally constructed. Shorter permit times &mdash; such as shortening building permit wait times or plan checks &mdash; can mean significant savings.</p>
+				<h1 class="lead2" id="6additionalplanningapprovals">6. Additional Planning Approvals</h1>
+				<div class="choice" id="conditionaluse" exp-text="A CU is a Conditional Use permit, while a PUD is a Planned Unit Development. Both are zoning designations created by cities that require a developer to get approvals from the local Planning Commission and possibly City Council in order to go through with development.">
+					<h1 class="title1 left">Additional Approvals (CU or PUD)</h1>
+					<ul class="choiceList">
+						<li class="button bleft">Yes</li>
+						<li class="button bright activeb">No</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="30" data-format="w" input-format="w" data-default="6" id="cutime" exp-text="The additional time, above and beyond the Basic Permitting Time, necessary to get Conditional Use or Planned Unit Development approval from the local Planning Commission and/or City Council. This time does not include time spent on environmental negative declarations, Environmental Impact Reports, or environmental-related litigation.">
+					<h1 class="title1 left">CU or PUD Additional Time</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="2"/> <span class="unit">months</span></h1>
+					<div class="clear"></div>
+				</div>		
+				<div class="graph" data-min="0" data-max="100000" data-format="wk$" input-format="wt,$" data-default="10000" id="cucost" exp-text="The cost to developers of the additional requirements imposed by the local Planning Commission and/or City Council necessary to get the project approved. This could include the cost to hire an additional security guard, construct a new on-ramp, pay additional fees, and other charges. This cost does not include money spent on environmental negative declarations, Environmental Impact Reports, or environmental-related litigation.">
+					<h1 class="title1 left">CU or PUD Additional Cost</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="8"/> <span class="unit">/unit</span></h1>
+					<div class="clear"></div>
+				</div>		
+				<div class="choice" id="specificplan" exp-text="Indicates whether the property is within a city-defined Specific Plan area. A specific plan is a development plan created by the city to encompass an area, usually comprising a few neighborhoods representing a subset of the city, with new zoning rules and requirements. The city completes an Environmental Impact Report (EIR) for the specific plan area, with necessary mitigations, and as a result, developers do not have to complete the environmental review process within the specific area, as long as they comply with the mitigations set forth in the plan. Based on interviews with developers, it is assumed that the EIR process takes 12 to 24 months, increasing based on the size of the project, and costs $300,000 to upwards of $1 million, depending on the size of the project.">
+					<h1 class="title1 left">Specific Plan Area</h1>
+					<ul class="choiceList">
+						<li class="button bleft">Yes</li>
+						<li class="button bright activeb">No</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div class="choice" id="negativedeclaration" exp-text="Small environmental impacts are called negative declarations. Projects that have a negligible impact on the environment or one easily mitigated by the developer are not required to perform an Environmental Impact Report. It is assumed that this process takes 4 months to complete.">
+					<h1 class="title1 left">Small Environmental Impacts</h1>
+					<ul class="choiceList">
+						<li class="button bleft">Yes</li>
+						<li class="button bright activeb">No</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<p class="par" style="margin-top:10px;">Requiring that developers obtain Conditional Use (CU) or Planned Unit Development (PUD) approval can be just as important to developers as local rents or risk adjusted return. Both are zoning designations created by cities that require a developer to get approvals from the local Planning Commission and possibly City Council in order to go through with development. As such, the general public gets to weigh in on the proceedings, and because the issue is now discretionary, projects must either be certified as having no environmental impact or go through the process of creating an Environmental Impact Report. 
+				<p class="par">Issues brought up in these public meetings may be as small as requiring proper signs or security to appease neighborhood concerns, or they may be as large as providing additional affordable housing units or mitigating large environmental impacts, such as traffic issues. In the case of small requests, CUs or PUDs can be relatively harmless, if they are resolved quickly. In the case of larger issues, developers may end up spending over $1 million and 12 to 24 months on an environmental impact report, and additional time in court if sued by neighborhood groups, not to mention the additional costs of required mitigation.</p>
+				<p class="par big-break">As a result, investors and developers often require higher returns for properties in these zones, depending on the perceived risk and additional costs involved.</p>
+
+				<h1 class="lead2" id="otherfactorstoconsider">Other Factors to Consider</h1>
+				<p class="par">Many other factors affect whether a project gets built. For example, different assumptions for future rent or construction cost increases can radically change a developer's expected profit. Those willing to take a bigger gamble on larger rent increases could end up big winners &mdash; or out of cash.</p>
+				<div class="choice" id="condo_apt" exp-text="Indicates whether the project is a rental project or a condo for-sale project. Condo projects are sold at 20 units per month, while rentals are leased up at 20 units per month and the building sold after 90% of the units have been leased for at least 90 days, a typical requirement of banks providing the financing. Condo construction costs are assumed to be 5% more to account for the costs of better finishes.">
+					<h1 class="title1 left">Tenure</h1>
+					<ul class="choiceList">
+						<li class="button bleft activeb">For Rent</li>
+						<li class="button bright">For Sale</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>		
+				<div class="graph" data-min="0" data-max="10" data-format="d%" input-format="d%" data-default="3" exp-text="The expected increase in sales prices or rental rates between project inception &mdash; drawing plans, seeking initial planning department input, and other preliminary activities &mash; and project completion and sale. Given the process can take 3 years or more, even small changes in annual rent increase assumptions can make a large difference to project feasibility. Overoptimistic developers may draw and submit plans but never follow through with them if expected rent increases do not occur, while realistic developers may lose out on land acquisitions to their overeager competitors.">
+					<h1 class="title1 left">Expected <span id="rWord">Rent</span><span id="sWord">Sales Price</span> Increase</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="5"/> <span class="unit">/year</span></h1>
+					<div class="clear"></div>
+				</div>	
+				<div class="graph" data-min="0" data-max="10" data-format="d%" input-format="d%" data-default="2" exp-text="The expected increase in Low Rise Construction Costs between project inception &mdash; drawing plans, seeking initial planning department input, and other preliminary activities &mash; and the beginning of construction. Given the process can take 6 months to years, depending on Conditional Use, Planned Unit Development, or environmental review, in some cases this is a large factor and in others a small one. Low rise construction costs tend to rise with rents in a real estate boom because the supply for skilled labor often cannot keep up with demand.">
+					<h1 class="title1 left">Expected Construction Cost Increase</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="6"/> <span class="unit">/year</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="2" data-max="6" data-format="d%" input-format="d%" id="cap" data-default="4" exp-text="In real estate terms, this is the capitalization rate &mdash; income from rental units, minus expenses, all divided by the total cost to build the property. This calculation is the return a purchaser of the recently built property would receive, in the first year of ownership, from the property, and is used to calculate valuations for sale of rental properties. Understanding the return on similar properties in the area allows a developer to calculate the amount for which the current project might sell.">
+					<h1 class="title1 left">Year 1 Return for Similar Properties</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="5"/> <span class="unit"> annually</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="4" data-max="12" data-format="d%" input-format="d%" data-default="6" exp-text="The current interest rate for a construction loan charged by the bank. It is assumed that the bank loans 65% of project costs, and the remaining 35% comes from investor equity. The higher the interest rate, the larger the interest payments the developer has to pay during construction. Affordable housing mortgage rates are assumed to be one percentage point below the Interest Rate.">
+					<h1 class="title1 left">Bank Loan Interest Rate</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="5"/> <span class="unit">/year</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="100" data-format="w%" input-format="w%" data-default="0" exp-text="The percent of the first floor that is required to be set aside for retail shops only. For a complete discussion of how retail returns are calculated, see the methodology below.">
+					<h1 class="title1 left">Ground Floor Retail</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit">of 1st floor</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="120" data-format="w$" input-format="w$" data-default="25" exp-text="The market rental rates of retail shops, per square foot per year, of rentable space, in the project's area. This factor is only important if the project requires Ground Floor Retail, as specified in the section above.">
+					<h1 class="title1 left">Local Retail Rents</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="4"/> <span class="unit">/square foot of space/year</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="400" data-max="1200" data-format="wu" input-format="wu," data-default="800" exp-text="The average size, in square feet, of an individual unit, not including common area space, such as hallways, lobbies, or maintenance rooms. As the parking requirement increases, developers have a larger incentive to build bigger units, because bigger units means less money spent on parking. Not pictured in the graph below is the possibility that, as unit size increases, rents per unit rise to a level higher than supported by current demand, so developers are unlikely to increase unit sizes substantially.">
+					<h1 class="title1 left">Average Unit Size</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="5"/> <span class="unit">square feet</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="graph" data-min="0" data-max="100000" data-format="wk" input-format="wt," data-default="25000" exp-text="The size, in square feet, of the lot. It is assumed that large projects over 60,000 square feet must go through a Conditional Use process, as in the case of Oakland.">
+					<h1 class="title1 left">Lot Size</h1>
+					<h1 class="title1 right"><input type="text" class="input1" size="7"/> <span class="unit">square feet</span></h1>
+					<div class="clear"></div>
+				</div>
+				<div class="choice" id="liquefaction" exp-text="Indicates whether the project is in a liquefaction zone, defined by the California Department of Conservation. A liquefaction zone is an area in which the earth below the structure 'liquefies' and becomes unable to support the structure. Costs to fortify the building against this risk are assumed to be an additional 4% of construction costs.">
+					<h1 class="title1 left">Liquefaction Zone</h1>
+					<ul class="choiceList">
+						<li class="button bleft">Yes</li>
+						<li class="button bright activeb">No</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div class="choice" id="landslide" exp-text="Indicates whether the building is on a steep slope or otherwise in a landslide risk zone, a location where the building risks sliding with the slope of the earth. Costs to fortify the buildign against this risk are assumed to be an additional 1.5% of construction costs. This cost is ignored if the building is in a liquefaction zone, as structural improvements for liquefaction can cover the landslide risk.">
+					<h1 class="title1 left">Landslide Zone</h1>
+					<ul class="choiceList">
+						<li class="button bleft">Yes</li>
+						<li class="button bright activeb">No</li>
+						<li class="clear"></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+				<h1 class="lead2">Sources</h1>
+				<p class="par big-break">This model draws inspiration from the very effective New York Times <a href="http://www.nytimes.com/interactive/2014/upshot/buy-rent-calculator.html?_r=0" target="0">Buy Rent Calculator</a> put together by Mike Bostock, Shan Carter, and Archie Tse. Key assumptions are drawn from numerous discussions with developers, contractors, and architects, as well as recent real estate feasibility studies done in San Francisco, Oakland, and El Cerrito by AECOM (<a href="http://files.mtc.ca.gov/pdf/TAP/Oakland_Development_Feasibility_Report.pdf" target="7">here</a> and <a href="http://www.el-cerrito.org/DocumentCenter/View/3699" target="8">here</a>), Seifel Consulting (<a href="http://www.sf-planning.org/ftp/files/plans-and-programs/emerging_issues/tsp/TSF_EconomicFeasibilityStudy_Spring2015.pdf" target="4">here</a> and <a href="http://sf-moh.org/modules/showdocument.aspx?documentid=6976" target="6">here</a>), and Strategic Economics (<a href="http://www.ci.berkeley.ca.us/uploadedFiles/Planning_and_Development/Level_3_-_DAP/FeasibilityReport_Final.pdf" target="5">here</a>). Some basic assumptions for affordable condo purchase price calculations are drawn from the San Francisco Mayor's Office of Housing Inclusionary Housing Program (<a href="http://sf-moh.org/modules/showdocument.aspx?documentid=8830" target="10">here</a>). Structure and basic assumptions are also drawn from various real estate classes at UC Berkeley &mdash; taught by <a href="https://www.law.berkeley.edu/php-programs/faculty/facultyProfile.php?facID=11321" target="1">Bill Falik</a>, <a href="http://facultybio.haas.berkeley.edu/faculty-list/williams-dennis" target="2">Dennis Williams</a>, and <a href="http://ced.berkeley.edu/ced/faculty-staff/carol-galante" target="3">Carol Galante</a>.</p>
+
+				<h1 class="lead2">Methodology</h1>
+				<p class="par">The model calculates developer return using the Internal Rate of Return (IRR) metric.  Model assumptions and calculations are based on a pro-forma analysis. For more detailed methodological information, contact <a href="http://twitter.com/grahamimac" target="9">@grahamimac</a>.</p>
+				<p class="par">The basic assumptions are as follows:</p>
+				<p class="par">The condo or apartment project is sold at stabilization after all construction is complete at a rate of 20 units per month. Stabilization indicates the time when 90% of the building is occupied for 90 days for rental units.</p>
+				<p class="par">Hard costs represent costs associated with actually constructing the building &mdash; digging the foundation, putting up the walls, installing the plumbing, etc. &mdash; while soft costs are all other costs &mdash; legal fees, some architectural fees, time spent meeting with city staff, and other costs.</p>
+				<p class="par">The bank loan is 65% of total hard and soft construction costs and bank loan fees are 0.75% of the loan amount. Costs to build out the retail space are $15 per square foot (psf) less expensive than low-rise construction costs. Tenant improvements and leasing costs for the space are $100 psf.  Basic podium parking &mdash; where part or all of the bottom floor is a concrete-walled parking lot &mdash; costs $120 psf. Low rise construction cost does not include retail tenant improvements, parking, or landscaping costs, and indicates the cost of building up to 5-story structures.</p>
+				<p class="par">High rise construction costs are calculated internally by the model as a percent of low rise costs, rising to 103% of low rise costs at 6 stories, 125% at 7 and 8 stories, 130% of low rise costs at 9 stories, and 1 percentage point higher per story afterward.</p>
+				<p class="par">Sales expenses are 3.5% of revenue for rental properties and 5.5% of revenue for condos. There is a premium for condo finishes of 5% of residential hard costs. All units are the same size in square feet. All units receive the same rent per square foot. There is a 10% contingency added to hard construction costs.</p>
+				<p class="par">Each parking space requires 350 square feet, and stackers &mdash; allowing 2 cars to fit, stacked one on top of the other, in a single space &mdash; are used for an extra $15,000 per space for all parking in buildings 3 stories and higher. With stackers, parking costs come out to around $28,500 per space in a podium setup, compared to about $42,000 per space otherwise, a difference of over 30% from traditional parking costs. Construction takes 18 months for smaller projects 3 stories and higher, 6 months for 1 story projects, 12 months for 2 story projects, and 21 months for projects 7 stories and higher, adding one additional month time for every 2 additional stories for larger projects beginning at 13 stories.</p>
+				<p class="par">The amount of lot square footage used as net rentable space is 73% for the most inefficient projects &mdash; high rises &mdash; and near 100% for one to two story buildings. Landscaping costs $10 psf. Above 50 units, projects gain efficiency at a slow linear rate up to a 5% discount on hard and soft costs for 250 units and above.</p>
+				<p class="par">A number of these variables change with building height. Per square foot costs rise with building height according to general cost estimates from the San Francisco Transportation Sustainability Fee report and interviews with developers. Lot square footage used as net rentable space is 100% for 1 story projects and 95% for two story projects, dropping to 78% for 3 story buildings. The figure improves steadily from 5 to 7 stories, and then declines again after 9 stories in 1% increments. Parking costs per square feet are significantly cheaper for 1 to 2 story structures than more complex low-rise podium parking. Parking costs rise after 6 stories and again after 11 stories to reflect the costs of underground parking.</p>
+				<p class="par">Residential vacancy is 5%, while retail vacancy is 10%. Soft costs, not including interest carry or local impact fees, are 20% of hard costs. The capitalization rate (cap rate) &mdash; termed Year 1 Return for Similar Properties above &mdash; for retail is 1.5 percentage points above the residential cap rate, as indicated in a recent CBRE <a href="http://www.cbre.us/o/fortlauderdale/AssetLibrary/CapRate_H22014_Master%5B1%5D.pdf" target="20">report</a>. Two parking spaces are required per 1,000 sf of retail space.</p>
+				<p class="par">10% of hard and soft construction costs are spent during predevelopment. Predevelopment indicates the time before construction occurs, usually spent drafting plans, doing soil studies, getting city approvals, and other activities. 10% of the cost of the land is paid annually in option consideration.</p>
+				<p class="par">Basic permitting processes includes time to get a planner assigned, design review, and time required to receive a building permit application. The EIR or negative declaration processes are assumed to be concurrent with basic permitting processes, while conditional use time is assumed to be above and beyond basic permitting time. We assume developers take about 3 months time before submitting anything to the planning department.</p>
+				<p class="par">Projects with a negative declaration are assumed to take 4 months longer than projects with no environmental review, while projects with a full EIR take 12 to 24 months longer, depending on project size. EIR production and litigation costs are assumed to start at $300,000 and rise based on project size by about $1,500 per unit. Projects do not have to complete an EIR or negative declaration if they are not in a conditional use area, are not classified as a "large project" &mdash; here defined using the city of Oakland's definition of a lot size of 60,000 square feet or more &mdash; or have 6 units or fewer.</p>
+				<p class="par">Affordable units are assumed to be the same size and quality as market rate units. AMI levels are based on 2016 Department of Housing and Urban Development income limits for a family of 4 in the Oakland-Fremont CA Metro Area. The density bonus is modeled after Oakland's ordinance &mdash; 10% minimum required at Low Income, with a 20% bonus, increasing by 1.5% to a 35% bonus at 20% affordable units. The model uses only the low-income scale, no matter what affordability level is selected. The model assumes there is no external subsidy for affordable units, though in practice developers might pursue a subsidy if more than 20% of units were required to be affordable at 50% of AMI or below. At this threshold, the project would qualify for non-competitive Federal Low Income Housing Tax Credit Subsidies.</p>
+				<p class="par">Projects in liquefaction zones cost 4% more and projects in landslide zones cost 1.5% more, based on conversations with a structural engineer.</p>
+				<p class="par">Condo fees are $500/month, and property taxes are 1.2%. Mortgage rates are 1 percentage point below the "Bank Loan Interest Rate" for construction loans. Affordable condo purchases pay 10% down. Renters and owners pay 30% of their income toward rent or mortgage payments. Operating costs are 30% of residential rents and 10% of retail rents.</p>
+				<p class="par">The land seller in this model is assumed to be a motivated land seller. Land sellers are assumed to have different prices at which they are willing to sell (for those mathematically inclined, it is modeled here using a poisson distribution with lambda value 4 at increments of 0.05 from 0 to 10). The distribution, shown below, most closely matches the distribution of land seller willingness based on conversations with area developers. This assumes that about 79% of motivated land sellers agree to sell at the market price, allowing for a few holdouts. The percent of market land value is on the x-axis and probability of sale is on the y-axis:</p>
+				<div class="graph2" data-min="0" data-max="200" data-format="w%" input-format="w%" data-default="100" id="distributionGraph">
+					<h1 class="title1">Percent of Market Land Value</h1>
+				</div>
+				<p class="par">This model works best at a scale of approximately 50 to 250 units, due to a number of unique factors in very small and very large projects. At a scale below 50 units, mid-size projects lose efficiency from a property management perspective, as managers have to split time between multiple properties. Costs may vary widely for smaller projects as up-front costs easily absorbed into larger projects become a larger share of the project budget. Single family homes and townhouses at a small scale have different rear yard requirements, ways of approaching parking, and requirements for building systems.</p>
+				<p class="par">Project efficiency is assumed to increase by up to 10% of costs as projects rise from 50 to 250 units. Most defaults are set based on local data for a typical mid-sized lot in north Oakland, though some &mdash; such as target return and bank loan interest rate &mdash; are set based on conversations with developers. Local rents and sales represent the 85th percentile of north Oakland rents to approximate new construction.</p>
+				<p class="par">This model does not include an ADU policy as a government lever because the factors that induce individual owners to build ADUs are too different from the factors facing larger building developers to include in the model.</p>
+				<p class="par big-break" style="line-height:1;"><span style="font-size:10px;">&copy; 2016 Terner Center for Housing Innovation at UC Berkeley. All Rights Reserved. No part of this website or computer code (javascript, HTML, CSS, etc.) may be reproduced, stored, modified, transmitted, or otherwise used without the prior written permission of the Terner Center for Housing Innovation at UC Berkeley.</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="resultsBoxBottom" id="resultsBox2">
+		<div id="resultsBoxDivSmall">
+			
+			<div id="returnDivSmall">
+				<span class="title3">Will the project be built?</span>
+				<span id="returnWordSmall">...</span><span id="annually">.</span>
+				<span class="title3 resultSmall build">We have <span id="returnDataSmall">0</span> confidence that it will be built.</span>
+				<!-- <span class="title3 resultSmall unsure">The housing may be built, depending on the risk.</span>
+				<span class="title3 resultSmall nogo">The housing will very likely not be built.</span> -->
+			</div>
+		</div>
+	</div>
+	<div id="explainIt"></div>
+</body>
+</html>

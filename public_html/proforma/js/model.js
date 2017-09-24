@@ -142,10 +142,10 @@ function calcAll(bonus, tempFee){
 	else{ addparkingsf = 0; }
 
 	// Calculate Hard Construction costs per square foot
-	building_res = inputs["Low_Rise_Construction_Costs"] * assumptions["addConstHeight"][inputs["Height"]]
+	building_res = inputs["Low_Rise_Hard_Construction_Costs"] * assumptions["addConstHeight"][inputs["Height"]]
 	if (rent == false){ building_res *= (1 + assumptions["Finishes"]) }
 	building_res *= assumptions["Contingency"]
-	building_ret = (assumptions["Retail"] + inputs["Low_Rise_Construction_Costs"]) * assumptions["Contingency"] + assumptions["RetailTI"]
+	building_ret = (assumptions["Retail"] + inputs["Low_Rise_Hard_Construction_Costs"]) * assumptions["Contingency"] + assumptions["RetailTI"]
 	parking = (assumptions["Parking"] + assumptions["addParking"][inputs["Height"]]) * assumptions["Contingency"]
 
 	// Calculate Permitting time and costs
